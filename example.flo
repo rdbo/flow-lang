@@ -1,0 +1,83 @@
+# file extension can be .flo or .flow
+
+use mypkg::some_func; # importing stuff
+
+myfunc := () {
+	# no 'async' marker on the function declaration; it can be called
+	# as regular and as async.
+	print("just a regular function")
+}
+
+// Rust-like enums
+enum MyEnum {
+	Message(String),
+	Status(i32)
+}
+
+main := (a i32, b i32, numref &mut i32) i32 {
+	# '#' -> long thing operator (if no suffix, it will be comment)
+	c := a + b ##### (const by default)
+	this is still a comment
+	comments will only end when the long thing operator finds
+	the exact same amount of characters it started with (if length > 1)
+	#####
+
+	multiline_text := ###"the long thing operator can also apply to "strings"
+		it lets you close only after it finds what it started with, so the
+		string didn't get closed by the quotes above, it will only clone
+		on the next line:
+	"###     # closes the string
+
+	mut thing i32 := 20
+	thing = 10 # can be mutated
+	thing := thing # you can redeclare variables with the same name and different mutation for example
+	               # now 'thing' will be const
+
+	*numref = 69 # we can modify references like this
+
+	if b == 1337 || b == 420 {
+		return 10
+	}
+
+	blockval := if a == 10 {
+		"my block value"
+	} else {
+		"my other block value"
+	};
+	# above is equivalent to
+	blockval := () {
+		if a == 10 {
+			return "my block value"
+		} else {
+			return "my other block value"
+		}
+	}();
+
+	# not sure about this yet... looks odd
+	match some_value {
+		== 10 {
+			
+		}
+
+		== 20 {
+			
+		}
+
+		>= 20 {
+			
+		}
+
+		Some(thing) {
+			
+		}
+	}
+
+	# call a function asynchronously
+	async myfunc() # note that async functions will be 'awaited' before the program ends
+
+	# evaluate itself (internal interpreter)
+	eval("a := 10")
+	# now there is a variable 'a' which is == 10
+
+	50 // return 50 through implicit return (just like the if return)
+}
