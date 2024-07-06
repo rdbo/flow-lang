@@ -6,8 +6,8 @@ myfunc := () {
 
 struct Thing {
 	# fields only
-	name String,
-	number i32
+	name: String,
+	number: i32
 }
 
 enum MyEnum {
@@ -20,7 +20,7 @@ enum MyEnum {
 }
 
 trait MyPrintable {
-	print (self) void;
+	print: (self) void; # looks kinda odd?
 }
 
 consumes_thing := (consumed: String, not_consumed: $mut String) void {
@@ -31,7 +31,7 @@ consumes_thing := (consumed: String, not_consumed: $mut String) void {
 	print("i can also mutate the mutable reference");
 }
 
-main := (argc i32, argv []str) {
+main := (argc: i32, argv: []str) {
 	## Async ##
 	# functions don't need to be colored in order to run asynchronously
 	async myfunc();
