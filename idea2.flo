@@ -82,4 +82,23 @@ main := (argc i32, argv []str) {
 	preprocessed_fibonacci := macro fibonacci(20); # fibonacci(20) will run at compile time
 	                                               # and the value will be hardcoded
 	# TODO: think dynamic code generation!
+
+	## Error Handling ##
+	# errors are handled through containers like Option<T>
+	# and Result<T, E>.
+	# All error values must implement the `Error` trait, which
+	# makes it easier for you to bubble up an error.
+	# To attempt to read a value and return the error on failure,
+	# you can use the `try` keyword
+	my_failable_function := () Result<T, Error> {
+		value := try read_file("somefile.txt"); # if this fails function, it will just return the error (bubble up)i
+		# or you can handle the error yourself with destructuring
+		value := match read_file("anotherfile.txt") {
+			Ok(val) { val }
+			Err(NoSuchFile) { print("file doesn't exist"); return Error("missing file"); }
+			Err(e) { return e; }
+		}
+	}
+	# options work the same way, but they don't have a error value
+	option := try get_thing_if_exists(); # returns None if doesn't exist
 }
