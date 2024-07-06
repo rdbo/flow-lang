@@ -20,7 +20,7 @@ enum MyEnum {
 }
 
 trait MyPrintable {
-	print () void;
+	print (self) void;
 }
 
 consumes_thing := (consumed: String, not_consumed: $mut String) void {
@@ -71,8 +71,15 @@ main := (argc i32, argv []str) {
 	# <T> means any type, <T = SomeTrait + AnotherTrait> means any type that implements
 	# 'SomeTrait' and 'AnotherTrait'
 	my_generic := <T = MyPrintableTrait, S = MyPrintableTrait + MySummable> (printable $T, summable $S) {
-		printable.print()
-		summable += 10
-		summable.print()
+		printable.print();
+		summable += 10;
+		summable.print();
 	}
+
+	## Macros and Compile Time ##
+	# stuff that runs in the compile time should use the 'macro' keyword
+	# for example:
+	preprocessed_fibonacci := macro fibonacci(20); # fibonacci(20) will run at compile time
+	                                               # and the value will be hardcoded
+	# TODO: think dynamic code generation!
 }
