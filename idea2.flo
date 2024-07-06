@@ -19,7 +19,11 @@ enum MyEnum {
 	RightParen,
 }
 
-consumes_thing := (consumed: String, not_consumed: $mut String) {
+trait MyPrintable {
+	print () void;
+}
+
+consumes_thing := (consumed: String, not_consumed: $mut String) void {
 	print("this string is mine now: {}", consumed);
 	print("i'm just borrowing this one: {}", not_consumed);
 
