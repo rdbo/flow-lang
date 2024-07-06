@@ -52,4 +52,11 @@ main := (argc i32, argv []str) {
 	# primitives will be COPIED (numbers, strings, pointers, etc)
 	# everything else will be MOVED (structs, enums, ...)
 	# ... UNLESS you pass by reference
+	# References will be both reference-counted and atomic referenced-count (if on async) (is this possible???)
+
+	## Uninitialization ##
+	# there is a 'defer' statement which will execute unconditionally at the end of the function
+	addr := mem::alloc(10)
+	defer free(addr) # no matter what happens, whenever this function exits, the memory gets deallocated
+					 # (no destructors and hidden control flow needed)
 }
