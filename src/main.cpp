@@ -32,8 +32,13 @@ enum class TokenType {
 	Declaration,
 
 	// Symbols
+	Semi,
 	Colon,
 	Dot,
+	LeftCurly,
+	RightCurly,
+	LeftParen,
+	RightParen,
 };
 
 struct Token {
@@ -98,6 +103,25 @@ GetNextToken(std::string_view &content)
 			break;
 		}
 
+		// String
+		if (c == '"') {
+			std::string str = "";
+			for (j = (i + 1); j < content.length(); ++j) {
+				next_c = content[j];
+
+				if (next_c == '"')
+					break;
+
+				str.push_back(next_c);
+			}
+			i = ++j;
+
+			token.type = TokenType::String;
+			token.value = str;
+
+			break;
+		}
+
 		// Identifier
 		if (std::isalpha(c)) {
 			std::string identifier = std::string(1, c);
@@ -116,6 +140,38 @@ GetNextToken(std::string_view &content)
 			token.value = identifier;
 			break;
 		}
+
+		if (c == ':' && i + 2 < content.length()) {
+			next_c = content[i + 1];
+			if (next_c == '=' && std::isspace(content[i + 2])) {
+				token.type = TokenType::Assignment;
+				token.value = ":=";
+				i += 3;
+				break;
+			}
+		}
+
+		if (c == ';') {
+			token.type = TokenType::Semi;
+			token.value = std::string(1, c);
+			++i;
+			break;
+		}
+
+		if (c == '(') {
+			token.type = TokenType::LeftParen;
+			token.value = std::string(1, c);
+			++i;
+			break;
+		}
+
+		if (c == ')') {
+			token.type = TokenType::RightParen;
+			token.value = std::string(1, c);
+			++i;
+			break;
+		}
+
 
 		// Unknown
 		token.type = TokenType::Unknown;
