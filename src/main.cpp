@@ -141,6 +141,7 @@ GetNextToken(std::string_view &content)
 			break;
 		}
 
+		// Operators
 		if (c == ':' && i + 2 < content.length()) {
 			next_c = content[i + 1];
 			if (next_c == '=' && std::isspace(content[i + 2])) {
@@ -172,6 +173,20 @@ GetNextToken(std::string_view &content)
 			break;
 		}
 
+		// Symbols
+		if (c == '{') {
+			token.type = TokenType::LeftCurly;
+			token.value = std::string(1, c);
+			++i;
+			break;
+		}
+
+		if (c == '}') {
+			token.type = TokenType::RightCurly;
+			token.value = std::string(1, c);
+			++i;
+			break;
+		}
 
 		// Unknown
 		token.type = TokenType::Unknown;
